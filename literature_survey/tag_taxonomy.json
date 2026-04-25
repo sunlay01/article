@@ -1,0 +1,196 @@
+{
+  "topics": [
+    {
+      "tag": "llm_foundation_models",
+      "label": "LLM / Foundation Models",
+      "zh_label": "大语言模型 / 基础模型",
+      "description": "general foundation model scaling, pretraining, architecture, adaptation, or broad capability studies"
+    },
+    {
+      "tag": "llm_reasoning_planning",
+      "label": "LLM Reasoning / Planning",
+      "zh_label": "大模型推理 / 规划",
+      "description": "reasoning, chain-of-thought, planning, decomposition, deliberation, search, or structured decision-making in language models"
+    },
+    {
+      "tag": "multimodal_models",
+      "label": "Multimodal Models",
+      "zh_label": "多模态模型",
+      "description": "vision-language, audio-language, multimodal fusion, cross-modal generation, or multimodal understanding"
+    },
+    {
+      "tag": "retrieval_rag_search",
+      "label": "Retrieval / RAG / Search",
+      "zh_label": "检索 / RAG / 搜索",
+      "description": "retrieval-augmented generation, dense retrieval, ranking, search, indexing, or memory retrieval systems"
+    },
+    {
+      "tag": "agents_tool_use",
+      "label": "Agents / Tool Use",
+      "zh_label": "智能体 / 工具使用",
+      "description": "language agents, tool use, external actions, workflow agents, planning with tools, or agentic systems"
+    },
+    {
+      "tag": "alignment_preference_safety",
+      "label": "Alignment / Preference / Safety",
+      "zh_label": "对齐 / 偏好学习 / 安全",
+      "description": "alignment, reward models, RLHF, DPO, harmlessness, red teaming, safety evaluation, or preference optimization"
+    },
+    {
+      "tag": "evaluation_benchmarks",
+      "label": "Evaluation / Benchmarks",
+      "zh_label": "评测 / 基准",
+      "description": "benchmarks, evaluation frameworks, challenge sets, datasets, leaderboards, or measurement methodology"
+    },
+    {
+      "tag": "efficient_fine_tuning_inference",
+      "label": "Efficient Tuning / Inference",
+      "zh_label": "高效微调 / 推理",
+      "description": "parameter-efficient fine-tuning, quantization, pruning, distillation, sparse inference, caching, or deployment efficiency"
+    },
+    {
+      "tag": "long_context_memory",
+      "label": "Long Context / Memory",
+      "zh_label": "长上下文 / 记忆",
+      "description": "context extension, memory mechanisms, long-sequence modeling, recurrent memory, or context compression"
+    },
+    {
+      "tag": "data_curation_synthetic_data",
+      "label": "Data Curation / Synthetic Data",
+      "zh_label": "数据构建 / 合成数据",
+      "description": "data filtering, data mixtures, synthetic data generation, curriculum data design, or dataset construction for training"
+    },
+    {
+      "tag": "representation_self_supervised",
+      "label": "Representation / Self-Supervised Learning",
+      "zh_label": "表征学习 / 自监督学习",
+      "description": "self-supervised learning, contrastive learning, masked modeling, representation learning, or unsupervised pretraining"
+    },
+    {
+      "tag": "diffusion_generation",
+      "label": "Diffusion / Generative Modeling",
+      "zh_label": "扩散 / 生成建模",
+      "description": "diffusion models, score matching, generative modeling, image generation, video generation, or probabilistic generation"
+    },
+    {
+      "tag": "vision_3d_geometry",
+      "label": "3D Vision / Geometry",
+      "zh_label": "三维视觉 / 几何",
+      "description": "3D reconstruction, novel view synthesis, point clouds, geometry, pose, meshes, or scene representation"
+    },
+    {
+      "tag": "vision_video_temporal",
+      "label": "Video / Temporal Vision",
+      "zh_label": "视频 / 时序视觉",
+      "description": "video understanding, temporal modeling, action recognition, motion, video generation, or time-aware vision"
+    },
+    {
+      "tag": "vision_detection_segmentation",
+      "label": "Detection / Segmentation / Tracking",
+      "zh_label": "检测 / 分割 / 跟踪",
+      "description": "object detection, instance segmentation, semantic segmentation, panoptic segmentation, or tracking"
+    },
+    {
+      "tag": "graph_learning",
+      "label": "Graph Learning",
+      "zh_label": "图学习",
+      "description": "graph neural networks, graph representation learning, graph reasoning, or graph data mining"
+    },
+    {
+      "tag": "reinforcement_learning",
+      "label": "Reinforcement Learning",
+      "zh_label": "强化学习",
+      "description": "reinforcement learning, offline RL, exploration, control, policy optimization, reward design, or decision-making"
+    },
+    {
+      "tag": "optimization_training_dynamics",
+      "label": "Optimization / Training Dynamics",
+      "zh_label": "优化 / 训练动力学",
+      "description": "optimizers, convergence, loss landscapes, grokking, scaling laws, curriculum, or training behavior"
+    },
+    {
+      "tag": "theory_generalization",
+      "label": "Theory / Generalization",
+      "zh_label": "理论 / 泛化",
+      "description": "theoretical analysis, learning theory, guarantees, bounds, expressivity, or generalization theory"
+    },
+    {
+      "tag": "ood_robustness",
+      "label": "OOD / Robustness",
+      "zh_label": "分布外泛化 / 鲁棒性",
+      "description": "out-of-distribution generalization, domain shift, adversarial robustness, uncertainty, calibration, or robustness under shift"
+    },
+    {
+      "tag": "causal_fairness_privacy",
+      "label": "Causality / Fairness / Privacy",
+      "zh_label": "因果 / 公平 / 隐私",
+      "description": "causal inference, fairness, bias, privacy, differential privacy, responsible AI, or societal risk"
+    },
+    {
+      "tag": "federated_distributed_learning",
+      "label": "Federated / Distributed Learning",
+      "zh_label": "联邦 / 分布式学习",
+      "description": "federated learning, distributed optimization, communication efficiency, decentralized learning, or privacy-preserving collaboration"
+    },
+    {
+      "tag": "medical_bio_ai",
+      "label": "Medical / Bio AI",
+      "zh_label": "医疗 / 生物 AI",
+      "description": "medical AI, biomedical NLP, protein modeling, genomics, computational biology, or healthcare applications"
+    },
+    {
+      "tag": "scientific_ai",
+      "label": "Scientific AI",
+      "zh_label": "科学智能",
+      "description": "scientific machine learning, PDEs, simulation, scientific discovery, physics-informed models, or scientific workflows"
+    },
+    {
+      "tag": "time_series_forecasting",
+      "label": "Time Series / Forecasting",
+      "zh_label": "时间序列 / 预测",
+      "description": "time series, forecasting, event prediction, temporal regression, or sequential prediction outside core video tasks"
+    },
+    {
+      "tag": "speech_audio",
+      "label": "Speech / Audio",
+      "zh_label": "语音 / 音频",
+      "description": "speech recognition, speech synthesis, audio understanding, speaker tasks, or audio generation"
+    },
+    {
+      "tag": "multilingual_translation",
+      "label": "Multilingual / Translation",
+      "zh_label": "多语言 / 机器翻译",
+      "description": "multilingual NLP, cross-lingual transfer, machine translation, low-resource language modeling, or language diversity"
+    },
+    {
+      "tag": "code_math_reasoning",
+      "label": "Code / Math / Formal Reasoning",
+      "zh_label": "代码 / 数学 / 形式推理",
+      "description": "code generation, theorem proving, symbolic reasoning, math reasoning, program synthesis, or formal verification"
+    },
+    {
+      "tag": "robotics_embodied_ai",
+      "label": "Robotics / Embodied AI",
+      "zh_label": "机器人 / 具身智能",
+      "description": "robotics, embodied agents, manipulation, navigation, policy learning in embodied environments, or world-grounded control"
+    },
+    {
+      "tag": "knowledge_editing_unlearning",
+      "label": "Knowledge Editing / Unlearning",
+      "zh_label": "知识编辑 / 机器遗忘",
+      "description": "model editing, factual updates, machine unlearning, memory removal, or controlled forgetting"
+    },
+    {
+      "tag": "adversarial_security",
+      "label": "Adversarial / Security",
+      "zh_label": "对抗 / 安全",
+      "description": "model security, jailbreaks, prompt attacks, adversarial attacks, defenses, vulnerability discovery, or secure ML"
+    },
+    {
+      "tag": "other_misc",
+      "label": "Other / Misc",
+      "zh_label": "其他 / 杂项",
+      "description": "use only when no better tag from the taxonomy clearly fits the paper"
+    }
+  ]
+}

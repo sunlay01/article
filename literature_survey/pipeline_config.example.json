@@ -1,0 +1,34 @@
+{
+  "pipeline_name": "overnight_top_venues",
+  "continue_on_error": false,
+  "sleep_seconds_between_jobs": 0,
+  "defaults": {
+    "mode": "all",
+    "workers": 6,
+    "batch_size": 20,
+    "classify_workers": 2,
+    "top_k_topics": 12
+  },
+  "jobs": [
+    {
+      "name": "icml_2023_2025",
+      "venues": ["icml"],
+      "years": [2025, 2024, 2023]
+    },
+    {
+      "name": "neurips_2023_2025",
+      "venues": ["neurips"],
+      "years": [2025, 2024, 2023]
+    },
+    {
+      "name": "cvpr_2023_2025",
+      "venues": ["cvpr"],
+      "years": [2025, 2024, 2023]
+    },
+    {
+      "name": "acl_2023_2025",
+      "venues": ["acl"],
+      "years": [2025, 2024, 2023]
+    }
+  ]
+}

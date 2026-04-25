@@ -2,6 +2,8 @@
 
 一个面向神经网络与机器学习科研学习的轻量仓库，用来长期维护可复用的系统提示词、跨设备环境配置，以及最小可运行的 OpenAI API 调用示例。
 
+仓库根目录现在同时包含一个可复用的 Codex skill 入口：[SKILL.md](SKILL.md)。如果你把这个仓库作为 skill 安装，核心能力就是机器学习论文趋势分析与扩展抓取工作流。
+
 这个仓库的定位不是“论文资料库”，而是“科研助手底座”：
 
 - 统一维护你自己的科研助手系统提示词
@@ -14,14 +16,25 @@
 - 中文对照提示词：方便你按母语持续修改
 - `.env.example`：跨设备同步的环境模板
 - `scripts/chat_with_prompt.py`：最小可运行示例
+- `literature_survey/`：顶会论文抓取、标签分类、统计与可视化工具
+- `SKILL.md`：把整个仓库暴露为可复用 skill 的入口说明
 
 ## 目录结构
 
 ```text
 .
+├── SKILL.md
 ├── prompts
 │   ├── research_system_prompt_en.md
 │   └── research_system_prompt_zh.md
+├── literature_survey
+│   ├── README.md
+│   ├── run_pipeline.py
+│   ├── run_survey.py
+│   ├── tag_taxonomy.json
+│   ├── venue_registry.py
+│   ├── venues.json
+│   └── pipeline_config.example.json
 ├── scripts
 │   └── chat_with_prompt.py
 ├── .env.example
@@ -38,10 +51,16 @@
 - 可选：`git`
 - 可选：`gh`（GitHub CLI，用于发布到 GitHub）
 
-Python 依赖见 [requirements.txt](/Users/sunlay/Desktop/ai_learn/requirements.txt)：
+Python 依赖见 [requirements.txt](requirements.txt)：
 
 - `openai`
 - `python-dotenv`
+- `requests`
+- `beautifulsoup4`
+- `pandas`
+- `matplotlib`
+- `seaborn`
+- `tqdm`
 
 ## 快速开始
 
@@ -125,7 +144,7 @@ prompts/research_system_prompt_en.md
 
 ## 使用指导
 
-[scripts/chat_with_prompt.py](/Users/sunlay/Desktop/ai_learn/scripts/chat_with_prompt.py) 的工作方式很简单：
+[scripts/chat_with_prompt.py](scripts/chat_with_prompt.py) 的工作方式很简单：
 
 1. 从 `.env` 读取 API key、模型和 prompt 文件路径
 2. 读取 `SYSTEM_PROMPT_PATH` 对应的 Markdown 内容
@@ -134,18 +153,48 @@ prompts/research_system_prompt_en.md
 
 这意味着你后续只要维护 prompt 文件本身，就能让所有脚本和设备共用同一套系统提示词。
 
-## 发布到 GitHub
+## 论文趋势分析工具
 
-当前目录已经初始化为本地 git 仓库，但这台机器上的 `gh` 还没有登录，所以还没有创建远端 GitHub 仓库。
+仓库还包含一个独立的论文综述脚本目录：[literature_survey/README.md](literature_survey/README.md)。
 
-登录后，可以在项目根目录执行：
+它的目标是：
+
+- 抓取 `ICLR`、`ICML`、`NeurIPS`、`CVPR`、`ACL` 近三年的论文
+- 严格只基于 `title + abstract` 做方向总结与标签分类，不读取全文
+- 生成每个 venue 的研究课题 tag 频数表
+- 输出热力图、年度趋势图和按 venue 的主题趋势图
+
+最常用的运行方式：
 
 ```bash
-gh auth login
-gh repo create ai_learn --source=. --private --remote=origin --push
+python literature_survey/run_survey.py
 ```
 
-如果你想公开仓库，把 `--private` 改成 `--public` 即可。
+如果你想先做小样本联调，避免一上来就抓全量并消耗较多 token：
+
+```bash
+python literature_survey/run_survey.py \
+  --max-papers-per-venue-year 30 \
+  --batch-size 8 \
+  --classify-workers 4
+```
+
+## Skill 用法
+
+根目录的 [SKILL.md](SKILL.md) 让这个仓库可以直接作为一个面向“机器学习论文趋势分析”的 skill 使用。
+
+这份 skill 主要覆盖：
+
+- 按 venue/year 抓取论文元数据
+- 基于 `title + abstract` 做受限标签分类
+- 生成频数表、热力图、年度趋势图
+- 用 `venues.json` + adapter 机制扩展新 venue
+
+如果你后续把这个仓库发布到 GitHub，就可以把它当成一个带 `SKILL.md` 的 skill 仓库来复用。
+
+## 发布到 GitHub
+
+当前目录已经初始化为本地 git 仓库。只要远端和认证可用，就可以直接推送。
 
 ## 官方文档参考
 

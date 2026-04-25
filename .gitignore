@@ -7,3 +7,5 @@ __pycache__/
 .mypy_cache/
 .idea/
 .vscode/
+literature_survey/cache/
+literature_survey/output/

@@ -71,6 +71,40 @@ def build_client() -> OpenAI:
     return OpenAI(**client_kwargs)
 
 
+def extract_response_text(response: object) -> str:
+    if isinstance(response, str):
+        return response.strip()
+
+    output_text = getattr(response, "output_text", None)
+    if isinstance(output_text, str) and output_text.strip():
+        return output_text.strip()
+
+    payload = None
+    if isinstance(response, dict):
+        payload = response
+    elif hasattr(response, "model_dump"):
+        payload = response.model_dump()
+
+    if payload is None:
+        return str(response).strip()
+
+    if isinstance(payload.get("output_text"), str) and payload["output_text"].strip():
+        return payload["output_text"].strip()
+
+    fragments: list[str] = []
+    for item in payload.get("output", []):
+        for content in item.get("content", []):
+            text = content.get("text")
+            if isinstance(text, str) and text.strip():
+                fragments.append(text.strip())
+            elif isinstance(text, dict):
+                value = text.get("value")
+                if isinstance(value, str) and value.strip():
+                    fragments.append(value.strip())
+
+    return "\n".join(fragments).strip() or str(payload).strip()
+
+
 def main() -> int:
     load_dotenv()
     args = parse_args()
@@ -95,7 +129,7 @@ def main() -> int:
         request_kwargs["reasoning"] = {"effort": args.reasoning_effort}
 
     response = client.responses.create(**request_kwargs)
-    print(response.output_text)
+    print(extract_response_text(response))
     return 0
 
 

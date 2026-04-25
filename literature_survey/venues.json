@@ -1,0 +1,73 @@
+{
+  "venues": [
+    {
+      "key": "iclr",
+      "display_name": "ICLR",
+      "adapter": "iclr_openreview",
+      "aliases": [],
+      "config": {
+        "submission_endpoints": {
+          "2025": {
+            "base_url": "https://api2.openreview.net/notes",
+            "invitation_name": "Submission"
+          },
+          "2024": {
+            "base_url": "https://api2.openreview.net/notes",
+            "invitation_name": "Submission"
+          },
+          "2023": {
+            "base_url": "https://api.openreview.net/notes",
+            "invitation_name": "Blind_Submission"
+          }
+        }
+      }
+    },
+    {
+      "key": "icml",
+      "display_name": "ICML",
+      "adapter": "pmlr",
+      "aliases": [],
+      "config": {
+        "volume_map": {
+          "2025": 267,
+          "2024": 235,
+          "2023": 202
+        }
+      }
+    },
+    {
+      "key": "neurips",
+      "display_name": "NeurIPS",
+      "adapter": "openreview_venue",
+      "aliases": [
+        "nips"
+      ],
+      "config": {
+        "venue_id_template": "NeurIPS.cc/{year}/Conference",
+        "accepted_labels": [
+          "oral",
+          "spotlight",
+          "poster"
+        ]
+      }
+    },
+    {
+      "key": "cvpr",
+      "display_name": "CVPR",
+      "adapter": "cvf_openaccess",
+      "aliases": [],
+      "config": {
+        "index_url_template": "https://openaccess.thecvf.com/CVPR{year}?day=all"
+      }
+    },
+    {
+      "key": "acl",
+      "display_name": "ACL",
+      "adapter": "acl_anthology",
+      "aliases": [],
+      "config": {
+        "event_url_template": "https://aclanthology.org/events/acl-{year}/"
+      }
+    }
+  ]
+}
