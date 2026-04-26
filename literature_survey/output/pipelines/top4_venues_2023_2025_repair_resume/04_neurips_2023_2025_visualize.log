@@ -1,0 +1,3 @@
+$ /Users/sunlay/Desktop/ai_learn/.venv/bin/python /Users/sunlay/Desktop/ai_learn/literature_survey/run_survey.py --mode visualize --venues neurips --years 2025 2024 2023 --workers 6 --batch-size 20 --classify-workers 2 --top-k-topics 12
+
+Wrote tables, figures, and summary report to /Users/sunlay/Desktop/ai_learn/literature_survey/output/neurips_2023-2025

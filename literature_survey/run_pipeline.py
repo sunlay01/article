@@ -201,8 +201,9 @@ def main() -> int:
         print(f"[pipeline] Command: {' '.join(command)}")
         start_time = time.time()
 
-        with log_path.open("w", encoding="utf-8") as handle:
+        with log_path.open("w", encoding="utf-8", buffering=1) as handle:
             handle.write(f"$ {' '.join(command)}\n\n")
+            handle.flush()
             process = subprocess.Popen(
                 command,
                 cwd=PROJECT_ROOT,
@@ -215,6 +216,7 @@ def main() -> int:
             for line in process.stdout:
                 print(line, end="")
                 handle.write(line)
+                handle.flush()
             exit_code = process.wait()
 
         job_state["exit_code"] = exit_code

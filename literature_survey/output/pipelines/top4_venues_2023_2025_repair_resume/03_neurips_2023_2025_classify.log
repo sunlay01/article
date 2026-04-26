@@ -1,0 +1,9 @@
+$ /Users/sunlay/Desktop/ai_learn/.venv/bin/python /Users/sunlay/Desktop/ai_learn/literature_survey/run_survey.py --mode classify --venues neurips --years 2025 2024 2023 --workers 6 --batch-size 20 --classify-workers 2 --top-k-topics 12
+
+Using 12482 cached classifications; 69 papers still need API tagging.
+Classifying with batch_size=20, classify_workers=2.
+[classify] completed_batches=1/4 classified_papers=12496/12551
+[classify] completed_batches=2/4 classified_papers=12516/12551
+[classify] completed_batches=3/4 classified_papers=12536/12551
+[classify] completed_batches=4/4 classified_papers=12545/12551
+Wrote classified papers to /Users/sunlay/Desktop/ai_learn/literature_survey/output/neurips_2023-2025/classified_papers.csv

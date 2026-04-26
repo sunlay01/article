@@ -192,6 +192,8 @@ python literature_survey/run_pipeline.py \
 - `literature_survey/output/pipelines/<pipeline_name>/pipeline_status.json`
 - `literature_survey/output/pipelines/<pipeline_name>/*.log`
 
+如果某个分类 batch 因模型输出漏项、错项或 JSON 不稳定而失败，脚本现在会自动把该 batch 拆成更小的子批次继续重试，直到拆到单篇为止。拆批行为会直接写进对应 job 的 `.log`。
+
 ## 可选参数
 
 ### `--venues`
@@ -389,6 +391,10 @@ python literature_survey/run_survey.py \
 - 中途手动中断可以续跑
 - 网络抖动或代理报错后不需要从头开始
 - 大规模运行更稳
+
+## 变更日志
+
+- 代码级修改记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 结果解释建议
 

@@ -1,0 +1,129 @@
+{
+  "pipeline_name": "top4_venues_2023_2025_repair_resume",
+  "config_path": "/Users/sunlay/Desktop/ai_learn/literature_survey/pipeline_config_top4_2023_2025_repair_resume.json",
+  "status": "failed",
+  "started_at": "2026-04-26T05:03:35.540498+00:00",
+  "finished_at": "2026-04-26T05:38:03.947290+00:00",
+  "jobs": [
+    {
+      "name": "icml_2023_2025_classify",
+      "run_name": "icml_2023-2025",
+      "mode": "classify",
+      "venues": [
+        "icml"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ],
+      "status": "completed",
+      "started_at": "2026-04-26T05:03:35.541005+00:00",
+      "finished_at": "2026-04-26T05:30:16.890301+00:00",
+      "exit_code": 0,
+      "duration_seconds": 1601.349,
+      "output_dir": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/icml_2023-2025",
+      "log_path": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/pipelines/top4_venues_2023_2025_repair_resume/01_icml_2023_2025_classify.log"
+    },
+    {
+      "name": "icml_2023_2025_visualize",
+      "run_name": "icml_2023-2025",
+      "mode": "visualize",
+      "venues": [
+        "icml"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ],
+      "status": "completed",
+      "started_at": "2026-04-26T05:30:16.890765+00:00",
+      "finished_at": "2026-04-26T05:30:18.034297+00:00",
+      "exit_code": 0,
+      "duration_seconds": 1.143,
+      "output_dir": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/icml_2023-2025",
+      "log_path": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/pipelines/top4_venues_2023_2025_repair_resume/02_icml_2023_2025_visualize.log"
+    },
+    {
+      "name": "neurips_2023_2025_classify",
+      "run_name": "neurips_2023-2025",
+      "mode": "classify",
+      "venues": [
+        "neurips"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ],
+      "status": "completed",
+      "started_at": "2026-04-26T05:30:18.034742+00:00",
+      "finished_at": "2026-04-26T05:33:05.152473+00:00",
+      "exit_code": 0,
+      "duration_seconds": 167.118,
+      "output_dir": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/neurips_2023-2025",
+      "log_path": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/pipelines/top4_venues_2023_2025_repair_resume/03_neurips_2023_2025_classify.log"
+    },
+    {
+      "name": "neurips_2023_2025_visualize",
+      "run_name": "neurips_2023-2025",
+      "mode": "visualize",
+      "venues": [
+        "neurips"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ],
+      "status": "completed",
+      "started_at": "2026-04-26T05:33:05.152922+00:00",
+      "finished_at": "2026-04-26T05:33:06.477808+00:00",
+      "exit_code": 0,
+      "duration_seconds": 1.325,
+      "output_dir": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/neurips_2023-2025",
+      "log_path": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/pipelines/top4_venues_2023_2025_repair_resume/04_neurips_2023_2025_visualize.log"
+    },
+    {
+      "name": "cvpr_2023_2025",
+      "run_name": "cvpr_2023-2025",
+      "mode": "all",
+      "venues": [
+        "cvpr"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ],
+      "status": "failed",
+      "started_at": "2026-04-26T05:33:06.478301+00:00",
+      "finished_at": "2026-04-26T05:38:03.946812+00:00",
+      "exit_code": 1,
+      "duration_seconds": 297.468,
+      "output_dir": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/cvpr_2023-2025",
+      "log_path": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/pipelines/top4_venues_2023_2025_repair_resume/05_cvpr_2023_2025.log"
+    },
+    {
+      "name": "acl_2023_2025",
+      "run_name": "acl_2023-2025",
+      "mode": "all",
+      "venues": [
+        "acl"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ],
+      "status": "pending",
+      "started_at": null,
+      "finished_at": null,
+      "exit_code": null,
+      "duration_seconds": null,
+      "output_dir": "/Users/sunlay/Desktop/ai_learn/literature_survey/output/acl_2023-2025",
+      "log_path": null
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import re
+import sys
 import threading
 import time
 from dataclasses import dataclass
@@ -76,6 +77,10 @@ class TopicSpec:
     label: str
     zh_label: str
     description: str
+
+
+class BatchClassificationError(RuntimeError):
+    """Raised when the model output is invalid for the requested batch."""
 
 
 class VenueAdapter:
@@ -954,13 +959,38 @@ def validate_classification(
     batch: list[dict[str, Any]],
     allowed_tags: set[str],
 ) -> list[dict[str, Any]]:
-    expected_ids = {item["paper_uid"] for item in batch}
-    received_ids = {item.get("paper_uid") for item in parsed}
-    if expected_ids != received_ids:
-        raise ValueError("Model output does not match the requested paper IDs.")
+    if not all(isinstance(item, dict) for item in parsed):
+        raise ValueError("Model output must be a list of JSON objects.")
+
+    expected_order = [item["paper_uid"] for item in batch]
+    expected_ids = set(expected_order)
+    records_by_uid: dict[str, dict[str, Any]] = {}
+    extras: list[str] = []
+
+    for item in parsed:
+        paper_uid = str(item.get("paper_uid", "")).strip()
+        if paper_uid in expected_ids:
+            records_by_uid[paper_uid] = item
+        else:
+            extras.append(paper_uid or "<missing>")
+
+    # Singleton retries often fail only because the model rewrites the paper_uid
+    # while the rest of the payload is still usable.
+    if len(expected_order) == 1 and not records_by_uid and parsed:
+        coerced = dict(parsed[0])
+        coerced["paper_uid"] = expected_order[0]
+        records_by_uid[expected_order[0]] = coerced
+
+    missing = [paper_uid for paper_uid in expected_order if paper_uid not in records_by_uid]
+    if missing:
+        raise ValueError(
+            "Model output does not match the requested paper IDs. "
+            f"missing={missing[:3]} extras={extras[:3]}"
+        )
 
     normalized: list[dict[str, Any]] = []
-    for item in parsed:
+    for paper_uid in expected_order:
+        item = records_by_uid[paper_uid]
         primary = item.get("primary_topic")
         secondaries = item.get("secondary_topics", [])
         if primary not in allowed_tags:
@@ -1041,12 +1071,68 @@ def classify_batch(
             ]
         except Exception as exc:  # noqa: BLE001
             if attempt == 5:
-                raise RuntimeError(
+                raise BatchClassificationError(
                     f"Failed to parse classification response after 5 attempts. Last output:\n{raw_text}"
                 ) from exc
             time.sleep(1.5 * attempt)
 
     return []
+
+
+def classify_batch_with_fallback(
+    batch: list[dict[str, Any]],
+    *,
+    instructions: str,
+    model: str,
+    reasoning_effort: str | None,
+    allowed_tags: set[str],
+    digest_by_paper_uid: dict[str, str],
+    fallback_depth: int = 0,
+) -> list[dict[str, Any]]:
+    try:
+        return classify_batch(
+            batch,
+            instructions=instructions,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            allowed_tags=allowed_tags,
+            digest_by_paper_uid=digest_by_paper_uid,
+        )
+    except BatchClassificationError as exc:
+        if len(batch) <= 1:
+            paper_uid = batch[0]["paper_uid"] if batch else "unknown"
+            raise RuntimeError(
+                f"Classification failed after singleton fallback for {paper_uid}."
+            ) from exc
+
+        midpoint = max(1, len(batch) // 2)
+        left_batch = batch[:midpoint]
+        right_batch = batch[midpoint:]
+        print(
+            "[fallback] "
+            f"batch_size={len(batch)} failed with {exc.__class__.__name__} at depth={fallback_depth}; "
+            f"splitting into {len(left_batch)} + {len(right_batch)}."
+        )
+
+        left_records = classify_batch_with_fallback(
+            left_batch,
+            instructions=instructions,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            allowed_tags=allowed_tags,
+            digest_by_paper_uid=digest_by_paper_uid,
+            fallback_depth=fallback_depth + 1,
+        )
+        right_records = classify_batch_with_fallback(
+            right_batch,
+            instructions=instructions,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            allowed_tags=allowed_tags,
+            digest_by_paper_uid=digest_by_paper_uid,
+            fallback_depth=fallback_depth + 1,
+        )
+        return left_records + right_records
 
 
 def classify_papers(
@@ -1086,6 +1172,7 @@ def classify_papers(
     digest_by_paper_uid = {row["paper_uid"]: row["paper_digest"] for row in pending_rows}
     batches = chunked(pending_rows, effective_batch_size)
     effective_workers = max(1, classify_workers)
+    use_tqdm = sys.stderr.isatty()
 
     print(
         f"Classifying with batch_size={effective_batch_size}, "
@@ -1112,8 +1199,9 @@ def classify_papers(
         )
 
     if effective_workers == 1:
-        for batch in tqdm(batches, desc="Classifying batches"):
-            batch_cache_records = classify_batch(
+        batch_iter = tqdm(batches, desc="Classifying batches") if use_tqdm else batches
+        for batch in batch_iter:
+            batch_cache_records = classify_batch_with_fallback(
                 batch,
                 instructions=instructions,
                 model=model,
@@ -1140,11 +1228,17 @@ def classify_papers(
                     status="running",
                     cached_at_start=len(cached_rows),
                 )
+            if not use_tqdm:
+                print(
+                    "[classify] "
+                    f"completed_batches={completed_batches}/{total_batches} "
+                    f"classified_papers={len(combined)}/{len(papers)}"
+                )
     else:
         with concurrent.futures.ThreadPoolExecutor(max_workers=effective_workers) as executor:
             futures = [
                 executor.submit(
-                    classify_batch,
+                    classify_batch_with_fallback,
                     batch,
                     instructions=instructions,
                     model=model,
@@ -1154,11 +1248,14 @@ def classify_papers(
                 )
                 for batch in batches
             ]
-            for future in tqdm(
-                concurrent.futures.as_completed(futures),
-                total=len(futures),
-                desc=f"Classifying batches ({effective_workers} workers)",
-            ):
+            completed_iter = concurrent.futures.as_completed(futures)
+            if use_tqdm:
+                completed_iter = tqdm(
+                    completed_iter,
+                    total=len(futures),
+                    desc=f"Classifying batches ({effective_workers} workers)",
+                )
+            for future in completed_iter:
                 batch_cache_records = future.result()
                 if batch_cache_records:
                     append_cache(cache_path, batch_cache_records)
@@ -1178,6 +1275,12 @@ def classify_papers(
                         classify_workers=effective_workers,
                         status="running",
                         cached_at_start=len(cached_rows),
+                    )
+                if not use_tqdm:
+                    print(
+                        "[classify] "
+                        f"completed_batches={completed_batches}/{total_batches} "
+                        f"classified_papers={len(combined)}/{len(papers)}"
                     )
 
     enriched = build_enriched_classification_frame(papers, combined, topics)

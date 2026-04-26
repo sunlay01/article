@@ -1,0 +1,85 @@
+{
+  "pipeline_name": "top4_venues_2023_2025_repair_resume",
+  "continue_on_error": false,
+  "sleep_seconds_between_jobs": 0,
+  "defaults": {
+    "workers": 6,
+    "batch_size": 20,
+    "classify_workers": 2,
+    "top_k_topics": 12
+  },
+  "jobs": [
+    {
+      "name": "icml_2023_2025_classify",
+      "mode": "classify",
+      "venues": [
+        "icml"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ]
+    },
+    {
+      "name": "icml_2023_2025_visualize",
+      "mode": "visualize",
+      "venues": [
+        "icml"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ]
+    },
+    {
+      "name": "neurips_2023_2025_classify",
+      "mode": "classify",
+      "venues": [
+        "neurips"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ]
+    },
+    {
+      "name": "neurips_2023_2025_visualize",
+      "mode": "visualize",
+      "venues": [
+        "neurips"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ]
+    },
+    {
+      "name": "cvpr_2023_2025",
+      "mode": "all",
+      "venues": [
+        "cvpr"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ]
+    },
+    {
+      "name": "acl_2023_2025",
+      "mode": "all",
+      "venues": [
+        "acl"
+      ],
+      "years": [
+        2025,
+        2024,
+        2023
+      ]
+    }
+  ]
+}
