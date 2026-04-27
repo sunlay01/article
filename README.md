@@ -179,6 +179,10 @@ python literature_survey/run_survey.py \
   --classify-workers 4
 ```
 
+最新一次五个顶会结果的 GitHub 展示页在这里：
+
+- [literature_survey/results/README.md](literature_survey/results/README.md)
+
 ## Skill 用法
 
 根目录的 [SKILL.md](SKILL.md) 让这个仓库可以直接作为一个面向“机器学习论文趋势分析”的 skill 使用。
